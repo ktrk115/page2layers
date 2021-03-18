@@ -1,0 +1,7 @@
+selenium
+requests
+beautifulsoup4
+Pillow
+imagehash
+graphviz
+tqdm
