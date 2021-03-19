@@ -16,6 +16,7 @@ pip install -r requirements.txt
 
 ## Tested environments
 - Ubuntu 20.04, Chrome 89.0.4389.90, ChromeDriver 89.0.4389.23
+- macOS 10.15.7, Chrome 89.0.4389.90, ChromeDriver 89.0.4389.23
 
 
 ## Usage

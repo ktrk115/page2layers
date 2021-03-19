@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+
+import fcntl
+import argparse
+import traceback
+from pathlib import Path
+from lib.capture import ScreenCapturer
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('input', metavar='URL_or_PATH',
+                        help='URL or Path to text file')
+    parser.add_argument('-o', '--output-dir', default='output',
+                        metavar='DIR', help='Output directory')
+    parser.add_argument('-w', '--window-size', default='1366,768',
+                        help='Window size [default: "1366,768"]')
+    parser.add_argument('--headless', action='store_true', help='Headless mode')
+    parser.add_argument('--extension', nargs='+',
+                        help='Path(s) to Chrome extension (crx file)')
+    parser.add_argument('--suppress-error', action='store_true',
+                        help='Suppress program termination due to errors')
+    args = parser.parse_args()
+
+    W, H = args.window_size.split(',')
+    window_size = int(W), int(H)
+    if args.extension is not None and args.headless:
+        raise RuntimeError('Chrome extensions do not work in headless mode.')
+
+    out_dir = Path(args.output_dir)
+
+    if args.input.startswith('http'):
+        urls = [args.input]
+    else:
+        with Path(args.input).open() as f:
+            urls = [l.strip() for l in f]
+
+    with ScreenCapturer(window_size,
+                        headless=args.headless,
+                        extension=args.extension) as sc:
+        for url in urls:
+            path = url.replace('https://', '')
+            path = path.replace('http://', '')
+            sub_dir = out_dir / path
+
+            try:
+                result = sc.capture(url, sub_dir)
+                if not args.suppress_error:
+                    print(result)
+
+            except KeyboardInterrupt as err:
+                result = None
+                raise err
+
+            except Exception as err:
+                msg = repr(traceback.format_exc())
+                result = '\t'.join([url, type(err).__name__, msg])
+                if not args.suppress_error:
+                    raise err
+
+            finally:
+                if args.suppress_error and result is not None:
+                    out_dir.mkdir(parents=True, exist_ok=True)
+                    log_path = out_dir / 'log'
+                    with log_path.open(mode='a') as f:
+                        fcntl.flock(f, fcntl.LOCK_EX)
+                        f.write(f'{result}\n')

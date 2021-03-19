@@ -1,7 +1,6 @@
 selenium
 requests
 beautifulsoup4
+anytree
 Pillow
 imagehash
-graphviz
-tqdm
