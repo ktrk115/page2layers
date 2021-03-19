@@ -110,28 +110,33 @@ class ScreenCapturer(object):
         return img
 
     def download_images(self, element, out_dir):
-        def check_and_save(img_repr, out_path):
+        def check_and_save(img_repr, out_prefix):
             img_url = img_repr.replace('url("', '').replace('")', '')
             if img_url[:4] == 'http':
-                content = check_broken_link(image_url, self.headers, return_content=True)
-                with Image.open(BytesIO(content)) as img:
-                    img.save(out_path)
-            elif img_url == 'none':
-                pass
-            else:
-                raise NotImplementedError(img_url)
+                content = check_broken_link(img_url, self.headers,
+                                            return_content=True)
+                filename = img_url.split('/')[-1]
+                out_path = out_prefix.with_name(out_prefix.stem + filename)
+                with out_path.open('wb') as fb:
+                    fb.write(content)
 
         key = 'background-image'
         img_reprs = element.get_style([key])[key].split(', ')
         for i, img_repr in enumerate(img_reprs):
-            out_path = out_dir / f'{element.index}_bg-{i}.png'
-            check_and_save(img_repr, out_path)
+            out_prefix = out_dir / f'{element.index}_bg-{i}_'
+            check_and_save(img_repr, out_prefix)
 
         if element.name == 'img':
             script = 'return arguments[0].src'
             img_repr = self.driver.execute_script(script, element.find())
-            out_path = out_dir / f'{element.index}_img.png'
-            check_and_save(img_repr, out_path)
+            out_prefix = out_dir / f'{element.index}_src_'
+            check_and_save(img_repr, out_prefix)
+
+        if element.name == 'video':
+            script = 'return arguments[0].poster'
+            img_repr = self.driver.execute_script(script, element.find())
+            out_prefix = out_dir / f'{element.index}_poster_'
+            check_and_save(img_repr, out_prefix)
 
     def capture(self, url, out_dir):
         self.get_page(url)

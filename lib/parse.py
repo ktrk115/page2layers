@@ -61,7 +61,8 @@ def build_element_tree(source):
                     PseudoElement(e, e_ctx, 'after')
 
             else:
-                e.parent.children.remove(e)
+                e.parent.children = filter(lambda _e: _e != e,
+                                           e.parent.children)
 
     soup = bs4.BeautifulSoup(source, 'html.parser')
 

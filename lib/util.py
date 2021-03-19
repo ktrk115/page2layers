@@ -20,7 +20,7 @@ def check_broken_link(url, headers=None, return_content=False):
             raise BrokenLinkError(msg)
 
         if return_content:
-            return res.contetn
+            return res.content
 
 
 def get_image_hash(img):
@@ -33,12 +33,9 @@ def get_image_hash(img):
 
 def detach(element):
     # tree
-    children = element.children
+    children = list(element.children)
     parent = element.parent
-    for c in children:
-        c.parent = parent
-
-    p_children = parent.children
+    p_children = list(parent.children)
     i = p_children.index(element)
     parent.children = p_children[:i] + children + p_children[i + 1:]
 
@@ -86,7 +83,7 @@ def get_tree_image(root):
         out_path = tmpdir + '/tree.png'
         UniqueDotExporter(root,
                           nodeattrfunc=lambda e:
-                          f'label="{e.index}: {e.name}"'
+                          f'label="[{e.index}] {e.name}"'
                           ).to_picture(out_path)
         with open(out_path, 'rb') as f:
             img = Image.open(f).copy()
