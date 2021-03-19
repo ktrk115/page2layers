@@ -142,34 +142,37 @@ class Element(Base):
 
 class PseudoElement(Base):
     def __init__(self, base_element, ctx_parent, pseudo_type):
+        self.pseudo_type = pseudo_type
+        self.base_element = base_element
+        self.is_visible = base_element.is_visible
+        self.is_context = False
+
         super().__init__(base_element.selector,
                          base_element, ctx_parent)
-
-        self.pseudo_type = pseudo_type
         self.name = f':{pseudo_type}'
-        self.base_element = base_element
-        self.is_visible = self.base_element.is_visible
-        self.is_context = False
 
     def __str__(self):
         return f'{self.selector} :{self.pseudo_type}'
 
     def get_style(self, keys):
+        pseudo_type = f':{self.pseudo_type}'
         return self.driver.execute_script(js['get_style'],
-                                          self.selector, list(keys), self.name)
+                                          self.selector, list(keys), pseudo_type)
 
     def set_style(self, style):
-        class_name = f'pseudoStyle{self.index}'
         css_text = ''.join(
             [f'{k}: {v} !important;' for k, v in style.items()]
         )
+        class_name = f'pseudoStyle{self.index}'
+        pseudo_type = f':{self.pseudo_type}'
         self.driver.execute_script(js['set_pseudo_style'],
-                                   self.selector, css_text, class_name, self.name)
+                                   self.selector, css_text, class_name, pseudo_type)
 
     def verify_style(self, style):
+        pseudo_type = f':{self.pseudo_type}'
         WebDriverWait(self.driver, 10).until(
             lambda d: d.execute_script(
-                js['is_same_style'], self.selector, style, self.name
+                js['is_same_style'], self.selector, style, pseudo_type
             ), "Style does not match")
 
 
