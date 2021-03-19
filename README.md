@@ -33,7 +33,7 @@ Capture with headless mode
 
 Capture multiple pages by a text file with URLs on each line
 ```bash
-./page2layers sample_URLs.txt
+./page2layers sample.txt
 ```
 
 Capture with Chrome extensions (e.g., ["I don't care about cookies"](https://www.i-dont-care-about-cookies.eu/))
