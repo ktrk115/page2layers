@@ -8,7 +8,7 @@ Install [Chrome](https://www.google.com/chrome/browser/desktop/index.html) and [
 
 ```bash
 git clone https://github.com/ktrk15/page2layers.git
-conda create -n page2layers python=3.8
+conda create -n page2layers python=3.8 graphviz
 conda activate page2layers
 pip install -r requirements.txt
 ```
