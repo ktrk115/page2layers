@@ -7,7 +7,7 @@ Decompose a web page into element-wise image layers
 Install [Chrome](https://www.google.com/chrome/browser/desktop/index.html) and [ChromeDriver](https://chromedriver.chromium.org/downloads) beforehand.
 
 ```bash
-git clone https://github.com/ktrk15/page2layers.git
+git clone https://github.com/ktrk115/page2layers.git
 conda create -n page2layers python=3.8 graphviz
 conda activate page2layers
 pip install -r requirements.txt
