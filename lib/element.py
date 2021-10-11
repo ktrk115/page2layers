@@ -9,6 +9,7 @@ TRANSPARENT_STYLE = {
     'background-color': 'rgba(0, 0, 0, 0)',
     'background-image': 'none',
     'border-style': 'hidden',
+    'text-shadow': 'none',
     'box-shadow': 'none',
 }
 INVISIBLE_STYLE = TRANSPARENT_STYLE.copy()
