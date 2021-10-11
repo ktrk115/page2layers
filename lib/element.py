@@ -54,6 +54,7 @@ class Base(NodeMixin):
         if style['position'] != 'static':
             if style['z-index'] != 'auto':
                 z = float(style['z-index'])
+            z += 1.
         return z
 
     def get_style(self, keys):
