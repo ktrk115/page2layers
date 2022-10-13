@@ -1,5 +1,6 @@
-# page2layers
-A tool for decomposing a web page into element-wise image layers.
+# Page2layers
+Page2layers is a tool that decomposes a web page into element-by-element image layers.
+The layer is created by taking a screenshot with all but one element transparent.
 
 https://user-images.githubusercontent.com/13844767/195525041-28abb870-06e3-48e2-b4fa-dcae1d16c81b.mp4
 
