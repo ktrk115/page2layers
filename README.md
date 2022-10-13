@@ -1,6 +1,8 @@
 # page2layers
 A tool for decomposing a web page into element-wise image layers.
 
+https://user-images.githubusercontent.com/13844767/195525041-28abb870-06e3-48e2-b4fa-dcae1d16c81b.mp4
+
 This tool was developed for the following research work.
 > Modeling Visual Containment for Web Page Layout Optimization (Pacific Graphics 2021)  
 Kotaro Kikuchi, Mayu Otani, Kota Yamaguchi, Edgar Simo-Serra  
