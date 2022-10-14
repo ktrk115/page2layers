@@ -54,7 +54,7 @@ Capture with Chrome extensions (e.g., ["I don't care about cookies"](https://www
 
 If this tool helps your research, please cite our paper.
 
-```
+```bibtex
 @article{Kikuchi2021,
     title = {Modeling Visual Containment for Web Page Layout Optimization},
     author = {Kotaro Kikuchi and Mayu Otani and Kota Yamaguchi and Edgar Simo-Serra},
